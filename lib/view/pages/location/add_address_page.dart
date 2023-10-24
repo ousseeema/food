@@ -10,6 +10,7 @@ import 'package:food/controller/popular_product_controller.dart';
 import 'package:food/models/adressmodel.dart';
 import 'package:food/routes/route_helper.dart';
 import 'package:food/services/shared.dart';
+import 'package:food/view/pages/location/pick_address_map.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
 import 'package:food/view/widgets/appicon.dart';
@@ -105,6 +106,16 @@ class _addaddresspageState extends State<addaddresspage> {
                     children: [
                       GoogleMap(
                         mapType: MapType.hybrid,
+                        onTap: (LatLng) {
+                          Get.toNamed(routeheleper.getpickaddres(),arguments: PickAdressMap(
+                            fromsignup: false ,
+                            fromadresss:true ,
+                            googlemapcontroller:locationcontroller1.mapcontroller,
+
+
+                          ));
+                          
+                        },
 
                         initialCameraPosition:
                             CameraPosition(target: _initposition, zoom: 17),

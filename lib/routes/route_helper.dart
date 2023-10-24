@@ -3,6 +3,7 @@ import 'package:food/view/pages/food/popular_food_details.dart';
 import 'package:food/view/pages/food/recommended_food_details.dart';
 import 'package:food/view/pages/home/homepage.dart';
 import 'package:food/view/pages/location/add_address_page.dart';
+import 'package:food/view/pages/location/pick_address_map.dart';
 import 'package:food/view/pages/sign_inandout/login.dart';
 import 'package:food/view/pages/sign_inandout/signup.dart';
 import 'package:food/view/pages/splash/splashpage.dart';
@@ -17,21 +18,23 @@ class routeheleper {
   static const String sign = "/sign-in";
   static const String signout="/sign-out";
   static const String  addaddres ="/add-address";
+  static const String pickaddress="/pick-address";
    
 
 
 
 
    
-   static String getspalshpage()=> '$splashscreen';
-  static String getinitial() => initaleroute;
+   static String getspalshpage()=> '${splashscreen}';
+  static String getinitial() => "${initaleroute}";
   static String getPopularFood(int index) => "$popularfood?pageId=$index";
   static String getrecommendedFood(int pageid) =>
       "$recommendedfood?pageId=$pageid";
-  static String getcartpage() => "$Cartpage";
-  static String getsignin() => "$sign";
-  static String getsignout()=> signout;
-  static String getaddress()=> addaddres;
+  static String getcartpage() => "${Cartpage}";
+  static String getsignin() => "${sign}";
+  static String getsignout()=>"${signout}" ;
+  static String getaddress()=> "${addaddres}";
+  static String  getpickaddres()=> "${pickaddress}";
 
 
   static List<GetPage> Routes = [
@@ -71,6 +74,12 @@ class routeheleper {
 
         GetPage(name: signout, page: ()=>const signuppage(), transition: Transition.fadeIn),
 
-        GetPage(name: addaddres, page: ()=>const addaddresspage(), transition: Transition.fadeIn)
+        GetPage(name: addaddres, page: ()=>const addaddresspage(), transition: Transition.fadeIn),
+       GetPage(name: pickaddress, page: (){
+        PickAdressMap _pickAdressMap = Get.arguments;
+        return _pickAdressMap;
+       }),
+ 
+ 
   ];
 }
