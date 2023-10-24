@@ -8,6 +8,7 @@ import 'package:food/Data/api/repository/popular_product_repo.dart';
 import 'package:food/controller/locationcontroller.dart';
 import 'package:food/controller/popular_product_controller.dart';
 import 'package:food/models/adressmodel.dart';
+import 'package:food/routes/route_helper.dart';
 import 'package:food/services/shared.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
@@ -353,9 +354,10 @@ class _addaddresspageState extends State<addaddresspage> {
                               barBlur: 10,
                               backgroundColor: Colors.red);
                         } else {
+                          //slkdflkhfn,feziefzfhiofnf ezfjfefjzopf
                           
                           loccontroller.saveaddress(detailsaddress);
-                          Get.back();
+                          Get.toNamed(routeheleper.initaleroute);
 
                                 
                         }
