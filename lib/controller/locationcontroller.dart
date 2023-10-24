@@ -97,7 +97,7 @@ class locationcontroller extends GetxController implements GetxService {
                   locality: Address["state"],
                   subLocality: Address["county"])
               : pickPlaceMark = Placemark(
-                  name: "${Address["road"]} , ${Address["town"]}",
+                  name: "${Address["road"]} , ${Address["city"]}",
                   country: Address["country_code"],
                   locality: Address["state"],
                   subLocality: Address["county"]);
