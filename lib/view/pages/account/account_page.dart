@@ -271,10 +271,13 @@ class _accountpageState extends State<accountpage> {
                   onTap: () async{
                     if(shared.getbool("islogin")== true){
                       localstorage(email: "User@exmpl.com", islogin: false, name: "User", phone: "Phone Number").deletecorrdonnation();
+                         
                           Get.find<cartecontroller>().clear();
-                          Get.find<cartecontroller>().clearcarhistory();
-                          Get.toNamed(routeheleper.getinitial());
+                          Get.find<cartecontroller>().clearcarhistory();                        
                           auth().signout();
+                          print("signout");
+                           Get.toNamed(routeheleper.initaleroute);
+                          
                       
 
 
