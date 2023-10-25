@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:food/controller/locationcontroller.dart';
+import 'package:food/routes/route_helper.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
 import 'package:food/view/widgets/save_address_btt.dart';
@@ -21,24 +22,33 @@ class PickAdressMap extends StatefulWidget {
 
 class _PickAdressMapState extends State<PickAdressMap> {
   late TextEditingController _addressmarker = new TextEditingController();
-  late LatLng _initposition = LatLng(45.51563, -122.677433);
-  late CameraPosition _cameraPosition =
-      CameraPosition(target: _initposition, zoom: 17);
+
+  
+  late LatLng _initposition = LatLng(
+      Get.find<locationcontroller>().postion.latitude,
+      Get.find<locationcontroller>().postion.longitude);
+
+
+
+
+  late CameraPosition _cameraPosition = CameraPosition(
+      target: LatLng(Get.find<locationcontroller>().postion.latitude,
+          Get.find<locationcontroller>().postion.longitude),
+      zoom: 17);
   late GoogleMapController _mapcontroller;
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<locationcontroller>(builder: (locationcntrl) {
-       _addressmarker.text = '${locationcntrl.pickPlaceMark.name ?? ''} '
-                         ' ${locationcntrl.pickPlaceMark.locality ?? ""} '
-                          ' ${locationcntrl.pickPlaceMark.country ?? ''} ';
+      _addressmarker.text = '${locationcntrl.pickPlaceMark.name ?? ''} '
+          ' ${locationcntrl.pickPlaceMark.locality ?? ""} '
+          ' ${locationcntrl.pickPlaceMark.country ?? ''} ';
       return Scaffold(
           body: SafeArea(
               child: Center(
@@ -50,16 +60,14 @@ class _PickAdressMapState extends State<PickAdressMap> {
                 initialCameraPosition:
                     CameraPosition(target: _initposition, zoom: 17),
                 onCameraMove: (position) {
-               
+                  setState(() {
                     _cameraPosition = position;
-                  
+                  });
                 },
                 onCameraIdle: () {
                   Get.find<locationcontroller>()
                       .updatePostion(_cameraPosition, false);
                 },
-               
-               
               ),
 
               // center widget for the image marker.png to be  over the map
@@ -71,7 +79,7 @@ class _PickAdressMapState extends State<PickAdressMap> {
                           height: 50,
                           width: 50,
                         )
-                      : CircularProgressIndicator(
+                      : const CircularProgressIndicator(
                           color: AppColor.maincolor,
                         )),
 
@@ -91,19 +99,14 @@ class _PickAdressMapState extends State<PickAdressMap> {
                     child: Row(
                       children: [
                         const Icon(Icons.location_on),
-                        GetBuilder<locationcontroller>(builder: (control){
-                         
-
-                        
-                        return Expanded(
+                        Expanded(
                             child: Text(
                           "${_addressmarker.text}",
                           style: const TextStyle(
                               fontSize: 16, color: Colors.white),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                        ));
-                       })
+                        ))
                       ],
                     )),
               ),
@@ -134,10 +137,16 @@ class _PickAdressMapState extends State<PickAdressMap> {
                                                   locationcntrl.pickPostion
                                                       .longitude))));
 
-                                                      locationcntrl.setaddressupdate();
-                                                    
-                                                      Get.back();
+                                  locationcntrl.setaddressupdate();
+                                  print(locationcntrl.pickPostion.latitude);
                                 }
+                                Get.back();
+
+
+
+
+
+
                               }
                             }
                           },

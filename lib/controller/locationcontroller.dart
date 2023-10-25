@@ -45,6 +45,7 @@ class locationcontroller extends GetxController implements GetxService {
     _mapController = mapcontroller;
     
   }
+  Map<String,dynamic> Address={};
 
 
  
@@ -93,17 +94,18 @@ class locationcontroller extends GetxController implements GetxService {
         // the name of the place that we choose in the maps (ex : tawa besh nabaatho object latlang ll serveur fi forme(44.66555,87.8148787)
         //w google maps bvesh yrajjali esm el blasa)
         if (_changeAddress) {
-          Map<String, dynamic> Address = await getAddressFromGeoCode(
+          
+                Address = await getAddressFromGeoCode(
               LatLng(position.target.latitude, position.target.longitude));
             if(fromaddress){
                 placemark = Placemark(
-                  name: "${Address["road"]} , ${Address["city"]}",
+                  name: "${Address["road"]}",
                   country: Address["country_code"],
                   locality: Address["state"],
                   subLocality: Address["county"]);
             }else{
                pickPlaceMark = Placemark(
-                  name: "${Address["road"]} , ${Address["city"]}",
+                  name: "${Address["road"]}",
                   country: Address["country_code"],
                   locality: Address["state"],
                   subLocality: Address["county"]);
@@ -120,6 +122,8 @@ class locationcontroller extends GetxController implements GetxService {
     }
     else{
       _updateaddressdata =true;
+   
+      //update();
     }
   }
 
@@ -164,10 +168,15 @@ class locationcontroller extends GetxController implements GetxService {
     }
   }
      void setaddressupdate(){
+
+  
        _position = _pickerPosition;
-       placemark = pickPlaceMark;
+       placemark = pickPlaceMark; 
+       
        _updateaddressdata = false;
-       update();
+      
+        update();
+        
     }
 
 

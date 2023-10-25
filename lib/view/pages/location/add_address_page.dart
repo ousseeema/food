@@ -73,9 +73,9 @@ class _addaddresspageState extends State<addaddresspage> {
           //recupere l'objet placemark from location controller et affiche
           // les attribut eli fi wasta "deja aamlnalhom init fi page location controller "
           _addresscontroller.text =
-              '${locationcontroller1.placemark.name ??''} '
+              '${locationcontroller1.placemark.name ?? ""} '
               '${locationcontroller1.placemark.locality ??""} '
-              '${locationcontroller1.placemark.country ??''}';
+              '${locationcontroller1.placemark.country ??""}';
 
           print("adress is ${_addresscontroller.text}");
 
