@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_final_fields, unused_field, non_constant_identifier_names
 
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,8 @@ class locationcontroller extends GetxController implements GetxService {
 
   locationcontroller({required this.Locationrepo});
   bool _loading = false;
+  
+  bool _changeAddress = true;
   late Position _position;
   late Position _pickerPosition;
   Placemark placemark = Placemark();
@@ -36,12 +37,17 @@ class locationcontroller extends GetxController implements GetxService {
 
   bool _updateaddressdata = true;
   bool get loading => _loading;
+
   Position get postion => _position;
   Position get pickPostion => _pickerPosition;
 
   void setmapcontroller(GoogleMapController mapcontroller) {
     _mapController = mapcontroller;
+    
   }
+
+
+ 
 
   // fonction besh taamli update ll postion w pickpostion besh nadiha mn page add_address_page
   void updatePostion(CameraPosition position, bool fromaddress) async {
@@ -65,10 +71,7 @@ class locationcontroller extends GetxController implements GetxService {
             speedAccuracy: 1,
             altitudeAccuracy: 1,
           );
-        }
-
-        // hedhy wa9et nodkhel besh nakhtar pick fi map lokhra
-        else {
+        }else{
           _pickerPosition = Position(
             latitude: position.target.latitude,
             longitude: position.target.longitude,
@@ -82,29 +85,41 @@ class locationcontroller extends GetxController implements GetxService {
             altitudeAccuracy: 1,
           );
         }
-        bool _changeAddress = true;
+
+        
+        
+        
         // in this if we will send the corrdonnation to the serveur and the serveur will  speak with the googel map and return
         // the name of the place that we choose in the maps (ex : tawa besh nabaatho object latlang ll serveur fi forme(44.66555,87.8148787)
         //w google maps bvesh yrajjali esm el blasa)
         if (_changeAddress) {
           Map<String, dynamic> Address = await getAddressFromGeoCode(
               LatLng(position.target.latitude, position.target.longitude));
-
-          fromaddress
-              ? placemark = Placemark(
-                  name: "${Address["road"]} , ${Address["city"]}",
-                  country: Address["country_code"],
-                  locality: Address["state"],
-                  subLocality: Address["county"])
-              : pickPlaceMark = Placemark(
+            if(fromaddress){
+                placemark = Placemark(
                   name: "${Address["road"]} , ${Address["city"]}",
                   country: Address["country_code"],
                   locality: Address["state"],
                   subLocality: Address["county"]);
+            }else{
+               pickPlaceMark = Placemark(
+                  name: "${Address["road"]} , ${Address["city"]}",
+                  country: Address["country_code"],
+                  locality: Address["state"],
+                  subLocality: Address["county"]);
+
+            }
+         
+             
         }
       } catch (e) {
         print(e);
       }
+      _loading= false;
+      update();
+    }
+    else{
+      _updateaddressdata =true;
     }
   }
 
@@ -114,7 +129,7 @@ class locationcontroller extends GetxController implements GetxService {
     Response response = await Locationrepo.GetAddressFromGeoCode(latlng);
     if (response.statusText == "OK") {
       _address = response.body["address"];
-      print(_address);
+      
     } else {
       print("error loading from the api ");
     }
@@ -148,4 +163,12 @@ class locationcontroller extends GetxController implements GetxService {
       Get.snackbar("Error", "Error saving your address delivery");
     }
   }
+     void setaddressupdate(){
+       _position = _pickerPosition;
+       placemark = pickPlaceMark;
+       _updateaddressdata = false;
+       update();
+    }
+
+
 }

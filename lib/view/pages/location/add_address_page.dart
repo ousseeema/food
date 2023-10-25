@@ -1,27 +1,16 @@
 // ignore_for_file: prefer_const_constructors, unused_field, avoid_unnecessary_containers
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:food/Data/api/repository/popular_product_repo.dart';
 import 'package:food/controller/locationcontroller.dart';
-import 'package:food/controller/popular_product_controller.dart';
-import 'package:food/models/adressmodel.dart';
 import 'package:food/routes/route_helper.dart';
 import 'package:food/services/shared.dart';
 import 'package:food/view/pages/location/pick_address_map.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
-import 'package:food/view/widgets/appicon.dart';
 import 'package:food/view/widgets/bigtext.dart';
-import 'package:food/view/widgets/expandabletext.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../controller/locationcontroller.dart';
 
 class addaddresspage extends StatefulWidget {
   const addaddresspage({super.key});
@@ -32,7 +21,7 @@ class addaddresspage extends StatefulWidget {
 
 class _addaddresspageState extends State<addaddresspage> {
   // variable that will containe the name of the person logged in his phone number and one variable for the address that came from the google map api in location controller class
-  TextEditingController _addresscontroller = TextEditingController();
+  final TextEditingController _addresscontroller = TextEditingController();
   final TextEditingController _contactpersonname = TextEditingController();
   final TextEditingController _contactpersonnumber = TextEditingController();
   late bool islooged;
@@ -48,6 +37,7 @@ class _addaddresspageState extends State<addaddresspage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _addresscontroller.text="";
     // getting the value of islogin in the sharedpreferences "look at page shared "
     islooged = shared.getbool("islogin");
 
@@ -83,9 +73,9 @@ class _addaddresspageState extends State<addaddresspage> {
           //recupere l'objet placemark from location controller et affiche
           // les attribut eli fi wasta "deja aamlnalhom init fi page location controller "
           _addresscontroller.text =
-              '${locationcontroller1.placemark.name ?? ''}  '
-              ' ${locationcontroller1.placemark.locality ?? ""}  '
-              ' ${locationcontroller1.placemark.country ?? ''}';
+              '${locationcontroller1.placemark.name ??''} '
+              '${locationcontroller1.placemark.locality ??""} '
+              '${locationcontroller1.placemark.country ??''}';
 
           print("adress is ${_addresscontroller.text}");
 
@@ -105,8 +95,9 @@ class _addaddresspageState extends State<addaddresspage> {
                   child: Stack(
                     children: [
                       GoogleMap(
-                        mapType: MapType.hybrid,
-                        onTap: (LatLng) {
+                       
+                        onTap: (x) {
+                           
                           Get.toNamed(routeheleper.getpickaddres(),arguments: PickAdressMap(
                             fromsignup: false ,
                             fromadresss:true ,
@@ -131,9 +122,9 @@ class _addaddresspageState extends State<addaddresspage> {
                           // fonction hedhy besh thez el position nwaqet howa yabde yet7arek bel map w taamlha enregistre
                           //fi _cameraposition variable besh batali el fonction eli baaedha thez heki position
                           // w temshy taaml update khater feme address jdiida t7atet
-                          setState(() {
+                     
                             _cameraposition = position;
-                          });
+                     
                         },
                         // fonction besh thez camera position jdida
                         // w temshy taaml update ll address el gdyma w tkharej mnha esm el blasa w rue w country
@@ -358,7 +349,7 @@ class _addaddresspageState extends State<addaddresspage> {
                         // ken el conatiner deja fiha el address par default nkharej pop up message
                         //sinon naaml enreg ll address w hajet lokhra i data base
                         if (_addresscontroller.text ==
-                            "Route , Locality , Country") {
+                            "  ") {
                           Get.snackbar(
                               "Error", "Type your address with google map",
                               colorText: Colors.white,

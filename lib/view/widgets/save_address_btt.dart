@@ -18,53 +18,55 @@ class SaveButt extends StatelessWidget {
       this.transparent = false,
       this.margin,
       this.height,
-      this.width,
+      this.width = 280,
       this.radius = 5,
       this.icon});
 
   @override
   Widget build(BuildContext context) {
-   final ButtonStyle _floatbutton=  TextButton.styleFrom(
+    final ButtonStyle _floatbutton = TextButton.styleFrom(
       backgroundColor: OnPressed == null
           ? Theme.of(context).disabledColor
           : transparent
               ? Colors.transparent
               : Theme.of(context).primaryColor,
-      minimumSize: Size(width == null ? width! : Dimensions.screenwidth,
-          height == null ? height! : 50),
-          padding: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
-
-          
+      minimumSize: Size(Dimensions.screenwidth, 50),
+      padding: EdgeInsets.zero,
+      shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
     );
-    return  Center(
-
+    return Center(
       child: SizedBox(
-        width:  width?? Dimensions.screenwidth,
-        height: height?? 50,
+        width: width ?? Dimensions.screenwidth,
+        height: height ?? 50,
         child: TextButton(
-          onPressed: () {
-            
-          },
-          style: _floatbutton,
-          child:  Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-            icon!= null ? Padding(
-              
-              
-              padding: EdgeInsets.only(right: Dimensions.width10/2 )
-              child: Icon(icon, color: transparent?Theme.of(context).primaryColor:Theme.of(context).cardColor ,),
-              
-              
-              ): SizedBox(),
-              Text(bttText, style: TextStyle(fontSize: Dimensions.font16, 
-              color: transparent?Theme.of(context).primaryColor:Theme.of(context).cardColor ,
-              ),) 
-
-            ],
-          )),
-
+            onPressed: OnPressed,
+            style: _floatbutton,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                icon != null
+                    ? Padding(
+                        padding: EdgeInsets.only(right: Dimensions.width10 / 2),
+                        child: Icon(
+                          icon,
+                          color: transparent
+                              ? Theme.of(context).primaryColor
+                              : Theme.of(context).cardColor,
+                        ),
+                      )
+                    : SizedBox(),
+                Text(
+                  bttText,
+                  style: TextStyle(
+                    fontSize: Dimensions.font16,
+                    color: transparent
+                        ? Theme.of(context).primaryColor
+                        : Theme.of(context).cardColor,
+                  ),
+                )
+              ],
+            )),
       ),
     );
   }

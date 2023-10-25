@@ -9,6 +9,7 @@ import 'package:food/controller/recommanded_food_controller.dart';
 import 'package:food/routes/route_helper.dart';
 import 'package:food/services/shared.dart';
 import 'package:food/view/pages/sign_inandout/login.dart';
+import 'package:food/view/utils/appcolor.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
     // home:login(),
      initialRoute: routeheleper.getspalshpage(),
       getPages: routeheleper.Routes,
+      theme: ThemeData(primaryColor: AppColor.maincolor),
     );
   }
 }
