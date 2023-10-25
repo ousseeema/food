@@ -56,6 +56,7 @@ class _addaddresspageState extends State<addaddresspage> {
           double.parse(Get.find<locationcontroller>().getaddress["latitude"]),
           double.parse(Get.find<locationcontroller>().getaddress["longitude"]));
     }
+    
     // jebna les info mtaaa compte mn sharedpreferences w hatinehom fi des variable besh naaamlolhom affichage fi UI
     // kol ma tet7al page hedhy
     if (islooged == true && _contactpersonname.text.isEmpty) {

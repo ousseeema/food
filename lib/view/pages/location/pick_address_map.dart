@@ -57,6 +57,8 @@ class _PickAdressMapState extends State<PickAdressMap> {
           child: Stack(
             children: [
               GoogleMap(
+                zoomControlsEnabled: false,
+                myLocationEnabled: true,
                 initialCameraPosition:
                     CameraPosition(target: _initposition, zoom: 17),
                 onCameraMove: (position) {
@@ -115,7 +117,7 @@ class _PickAdressMapState extends State<PickAdressMap> {
               Positioned(
                   bottom: 50,
                   left: 20,
-                  right: 150,
+                  right: 20,
                   child: SaveButt(
                     bttText: "Save Address",
                     icon: Icons.done,
