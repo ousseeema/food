@@ -40,6 +40,10 @@ class locationcontroller extends GetxController implements GetxService {
 
   Position get postion => _position;
   Position get pickPostion => _pickerPosition;
+  //this  varaiable will be for service zone
+  bool isloading = false;
+  // this varaible will be for weather the user are in the services zone 
+ bool inzone = false;
 
   void setmapcontroller(GoogleMapController mapcontroller) {
     _mapController = mapcontroller;
