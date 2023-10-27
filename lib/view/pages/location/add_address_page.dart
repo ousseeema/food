@@ -96,7 +96,9 @@ class _addaddresspageState extends State<addaddresspage> {
                   child: Stack(
                     children: [
                       GoogleMap(
-                       
+                       // lorsque on tap sur le google maps thezna ll page 
+                       //okhra fiha google maps alla kaml el ecran najm nakhtar mnha b façon arta7 w akber 
+                       // 
                         onTap: (x) {
                            
                           Get.toNamed(routeheleper.getpickaddres(),arguments: PickAdressMap(
@@ -123,12 +125,15 @@ class _addaddresspageState extends State<addaddresspage> {
                           // fonction hedhy besh thez el position nwaqet howa yabde yet7arek bel map w taamlha enregistre
                           //fi _cameraposition variable besh batali el fonction eli baaedha thez heki position
                           // w temshy taaml update khater feme address jdiida t7atet
-                     
-                            _cameraposition = position;
+                         setState(() {
+                           _cameraposition = position;
+                         });
+                            
                      
                         },
                         // fonction besh thez camera position jdida
                         // w temshy taaml update ll address el gdyma w tkharej mnha esm el blasa w rue w country
+                        // w t7othom fi postion w place marker besh ena njm njbedhom w nafishihom fi ecran 
                         onCameraIdle: () {
                           locationcontroller1.updatePostion(
                               _cameraposition, true);
@@ -332,6 +337,7 @@ class _addaddresspageState extends State<addaddresspage> {
                     GestureDetector(
                       onTap: () {
                         //this function will save the user address info in the data base
+                        // ema gbal 7atithom fi map besh njm nhar akher nabaathom ll serveur 
 
                         Map<String, dynamic> detailsaddress = {
                           "name": _contactpersonname.text,
@@ -358,7 +364,8 @@ class _addaddresspageState extends State<addaddresspage> {
                               backgroundColor: Colors.red);
                         } else {
                           
-                          
+                          // naaml save ll user details fi base de donnees  na9esha el order maaha 
+                          // todo yazemni naamlelhom enreg fi shared preferences w list eli mawjouda fi location controller 
                           loccontroller.saveaddress(detailsaddress);
                           Get.toNamed(routeheleper.initaleroute);
 

@@ -6,7 +6,6 @@ import 'package:food/view/pages/sign_inandout/login.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class signuppage extends StatefulWidget {
   const signuppage({super.key});

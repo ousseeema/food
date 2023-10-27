@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:food/controller/locationcontroller.dart';
-import 'package:food/routes/route_helper.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
 import 'package:food/view/widgets/save_address_btt.dart';
@@ -23,7 +22,10 @@ class PickAdressMap extends StatefulWidget {
 class _PickAdressMapState extends State<PickAdressMap> {
   late TextEditingController _addressmarker = new TextEditingController();
 
-  
+  // hedhom hatithom heka mn location controller besh awel ma tete7al el map besh thezni el akher blasa khtaretha fi map lawla 
+  // yaani ken khtaret blasa fi map lawla w baatali habyt nbdlha fi map el kbyra yazem ki nhell map nalgeha kif kfi 
+  // mesh wahda fi bllasa w lokhra fi blasa okhra mehomsh kifkif 
+  // yyani bel falegi el blasa eli khtaretha fi map lawla ki nodkhel ll thenya nalga nafesha 
   late LatLng _initposition = LatLng(
       Get.find<locationcontroller>().postion.latitude,
       Get.find<locationcontroller>().postion.longitude);
@@ -46,6 +48,7 @@ class _PickAdressMapState extends State<PickAdressMap> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<locationcontroller>(builder: (locationcntrl) {
+      // njib fi donnees aala el blasa w esmha mn location controller 
       _addressmarker.text = '${locationcntrl.pickPlaceMark.name ?? ''} '
           ' ${locationcntrl.pickPlaceMark.locality ?? ""} '
           ' ${locationcntrl.pickPlaceMark.country ?? ''} ';
@@ -61,11 +64,18 @@ class _PickAdressMapState extends State<PickAdressMap> {
                 myLocationEnabled: true,
                 initialCameraPosition:
                     CameraPosition(target: _initposition, zoom: 17),
+                    // kol ma n7arek el maps hiya takhker position jdida w t7otha fi camera position besh 
+                    //ena baatali feme fonction okhra temshy taaml update ll les corrdonnes w asemli jdod w kol mtaa el blasa jdida 
                 onCameraMove: (position) {
                   setState(() {
                     _cameraPosition = position;
                   });
                 },
+                // hedhy hiya fonction eli besh tnedi func updateposition eli fi location controller 
+                // besh taamlna update ll donnes zay postion w place marker eli fihom donnes zay esm el blasa eli khtarnha 
+                // cameraposition fiha hajet zay longitude w latitude nabaathom ll serveur besh yrajaali esm el blasa eli b corrdonnees heki 
+                // wena nhez naamlha enreg fi place marker eli besh baatali njm naccedila mn blayes okhra w nafiche esm el blasa w kol 
+                // kol ma tetbadl tsyr mise a jour ll hejet kol 
                 onCameraIdle: () {
                   Get.find<locationcontroller>()
                       .updatePostion(_cameraPosition, false);
@@ -123,6 +133,9 @@ class _PickAdressMapState extends State<PickAdressMap> {
                     icon: Icons.done,
                     // if loding is true naaml verification aala el
                     //variable pickposition w pickplacemarker fihom donnee wele le
+                    // ken fihom donnes naaml mise ajour ll camera postion b 
+                    // position jdida eli deja khtartha ki amltt save address 
+                    // w baaed yhezni ll page eli jyt mmnha 
                     OnPressed: locationcntrl.loading
                         ? null
                         : () {
@@ -140,7 +153,7 @@ class _PickAdressMapState extends State<PickAdressMap> {
                                                       .longitude))));
 
                                   locationcntrl.setaddressupdate();
-                                  print(locationcntrl.pickPostion.latitude);
+                                 
                                 }
                                 Get.back();
 
