@@ -99,16 +99,16 @@ class locationcontroller extends GetxController implements GetxService {
               LatLng(position.target.latitude, position.target.longitude));
             if(fromaddress){
                 placemark = Placemark(
-                  name: "${Address["road"]}",
-                  country: Address["country_code"],
-                  locality: Address["state"],
-                  subLocality: Address["county"]);
+                  name: Address["road"]?? "",
+                  country: Address["country_code"]??"",
+                  locality: Address["state"]??"",
+                  subLocality: Address["county"]??"");
             }else{
                pickPlaceMark = Placemark(
-                  name: "${Address["road"]}",
-                  country: Address["country_code"],
-                  locality: Address["state"],
-                  subLocality: Address["county"]);
+                  name: Address["road"]?? "",
+                  country: Address["country_code"]??"",
+                  locality: Address["state"]??"",
+                  subLocality: Address["county"]??"");
 
             }
          
@@ -157,7 +157,7 @@ class locationcontroller extends GetxController implements GetxService {
           .saveaddress(addressdetails)
           .then((value) {
         
-        Get.snackbar("Done!", "Your address has been saved",
+        Get.snackbar("Done!", "Your order has been take care of it :)",
             colorText: Colors.black,
             backgroundColor: AppColor.maincolor,
             barBlur: 10,

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +8,10 @@ import 'package:food/view/pages/sign_inandout/signup.dart';
 import 'package:food/view/utils/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../utils/appcolor.dart';
 
+// ignore: must_be_immutable
 class login extends StatefulWidget {
   SharedPreferences? shared;
    login({super.key,  this.shared});

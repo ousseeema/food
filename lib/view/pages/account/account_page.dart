@@ -12,6 +12,7 @@ import 'package:food/view/widgets/bigtext.dart';
 import 'package:get/state_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+// ignore: must_be_immutable
 class accountpage extends StatefulWidget {
   SharedPreferences? shared1;
    accountpage({super.key ,  this.shared1});

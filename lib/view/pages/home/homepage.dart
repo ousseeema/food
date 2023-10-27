@@ -2,9 +2,6 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:food/view/pages/cart/carthistory.dart';
 import 'package:food/view/utils/appcolor.dart';
-import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../account/account_page.dart';
 import 'mainfoodpage.dart';

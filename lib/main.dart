@@ -1,17 +1,14 @@
 
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:food/controller/cartController.dart';
 import 'package:food/controller/popular_product_controller.dart';
 import 'package:food/controller/recommanded_food_controller.dart';
 import 'package:food/routes/route_helper.dart';
 import 'package:food/services/shared.dart';
-import 'package:food/view/pages/sign_inandout/login.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'firebase_options.dart';
 import 'helper/dependencies.dart' as dep;
