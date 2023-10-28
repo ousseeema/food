@@ -85,7 +85,7 @@ class _PickAdressMapState extends State<PickAdressMap> {
               // center widget for the image marker.png to be  over the map
 
               Center(
-                  child: !locationcntrl.loading
+                  child: locationcntrl.loading
                       ? Image.asset(
                           "img/marker.png",
                           height: 50,
@@ -128,15 +128,17 @@ class _PickAdressMapState extends State<PickAdressMap> {
                   bottom: 50,
                   left: 20,
                   right: 20,
-                  child: SaveButt(
-                    bttText: "Save Address",
+                  child: locationcntrl.isloading ? Center(
+                    child: CircularProgressIndicator(),
+                  ):SaveButt(
+                    bttText: locationcntrl.inzone? widget.fromadresss! ?"Pick Address": "Pick Location ": "Service is not alavailbe",
                     icon: Icons.done,
                     // if loding is true naaml verification aala el
                     //variable pickposition w pickplacemarker fihom donnee wele le
                     // ken fihom donnes naaml mise ajour ll camera postion b 
                     // position jdida eli deja khtartha ki amltt save address 
                     // w baaed yhezni ll page eli jyt mmnha 
-                    OnPressed: locationcntrl.loading
+                    OnPressed: (locationcntrl.loading|| locationcntrl.buttondisabled)
                         ? null
                         : () {
                             if (locationcntrl.pickPostion.latitude != 0 &&
@@ -165,8 +167,14 @@ class _PickAdressMapState extends State<PickAdressMap> {
                               }
                             }
                           },
-                  ))
-            ],
+                  ),
+                  )
+           
+                  
+                  
+                  
+                  
+                   ],
           ),
         ),
       )));
