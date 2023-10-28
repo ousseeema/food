@@ -1,4 +1,5 @@
 import 'package:food/Data/api/apiclient.dart';
+import 'package:food/view/utils/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,11 @@ final connect =GetConnect();
     
   return connect.get(("https://geocode.maps.co/reverse?lat=${latlng.latitude}&lon=${latlng.longitude}"));
 
+   }
+   Future<Response> getzone(String lat , String lon) async {
+
+
+    return await apiClient.getdata("${AppConstants.ZONE_URI}?lat=${lat}&lng=${lon}");
    }
 
  

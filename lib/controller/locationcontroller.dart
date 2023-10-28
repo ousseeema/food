@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food/Data/api/repository/locationrepo.dart';
 import 'package:food/models/adressmodel.dart';
+import 'package:food/models/response.dart';
 import 'package:food/services/database.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:geocoding/geocoding.dart';
@@ -18,7 +19,7 @@ class locationcontroller extends GetxController implements GetxService {
 
   locationcontroller({required this.Locationrepo});
   bool _loading = false;
-  
+
   bool _changeAddress = true;
   late Position _position;
   late Position _pickerPosition;
@@ -42,17 +43,17 @@ class locationcontroller extends GetxController implements GetxService {
   Position get pickPostion => _pickerPosition;
   //this  varaiable will be for service zone
   bool isloading = false;
-  // this varaible will be for weather the user are in the services zone 
- bool inzone = false;
+  // this varaible will be for weather the user are in the services zone
+  bool inzone = false;
+
+  // diabling button
+  bool buttondisabled = true;
 
   void setmapcontroller(GoogleMapController mapcontroller) {
     _mapController = mapcontroller;
-    
   }
-  Map<String,dynamic> Address={};
 
-
- 
+  Map<String, dynamic> Address = {};
 
   // fonction besh taamli update ll postion w pickpostion besh nadiha mn page add_address_page
   void updatePostion(CameraPosition position, bool fromaddress) async {
@@ -76,7 +77,7 @@ class locationcontroller extends GetxController implements GetxService {
             speedAccuracy: 1,
             altitudeAccuracy: 1,
           );
-        }else{
+        } else {
           _pickerPosition = Position(
             latitude: position.target.latitude,
             longitude: position.target.longitude,
@@ -91,42 +92,46 @@ class locationcontroller extends GetxController implements GetxService {
           );
         }
 
-        
-        
-        
+        response response1 = await getzone(position.target.latitude.toString(),
+            position.target.longitude.toString(), false);
+            //if buttondisabled equal false we are in the services area
+            buttondisabled = !response1.issucces;
+
+
+
+
+
+
+
+
         // in this if we will send the corrdonnation to the serveur and the serveur will  speak with the googel map and return
         // the name of the place that we choose in the maps (ex : tawa besh nabaatho object latlang ll serveur fi forme(44.66555,87.8148787)
         //w google maps bvesh yrajjali esm el blasa)
         if (_changeAddress) {
-          
-                Address = await getAddressFromGeoCode(
+          Address = await getAddressFromGeoCode(
               LatLng(position.target.latitude, position.target.longitude));
-            if(fromaddress){
-                placemark = Placemark(
-                  name: Address["road"]?? "",
-                  country: Address["country_code"]??"",
-                  locality: Address["state"]??"",
-                  subLocality: Address["county"]??"");
-            }else{
-               pickPlaceMark = Placemark(
-                  name: Address["road"]?? "",
-                  country: Address["country_code"]??"",
-                  locality: Address["state"]??"",
-                  subLocality: Address["county"]??"");
-
-            }
-         
-             
+          if (fromaddress) {
+            placemark = Placemark(
+                name: Address["road"] ?? "",
+                country: Address["country_code"] ?? "",
+                locality: Address["state"] ?? "",
+                subLocality: Address["county"] ?? "");
+          } else {
+            pickPlaceMark = Placemark(
+                name: Address["road"] ?? "",
+                country: Address["country_code"] ?? "",
+                locality: Address["state"] ?? "",
+                subLocality: Address["county"] ?? "");
+          }
         }
       } catch (e) {
         print(e);
       }
-      _loading= false;
+      _loading = false;
       update();
-    }
-    else{
-      _updateaddressdata =true;
-   
+    } else {
+      _updateaddressdata = true;
+
       //update();
     }
   }
@@ -137,7 +142,6 @@ class locationcontroller extends GetxController implements GetxService {
     Response response = await Locationrepo.GetAddressFromGeoCode(latlng);
     if (response.statusText == "OK") {
       _address = response.body["address"];
-      
     } else {
       print("error loading from the api ");
     }
@@ -160,7 +164,6 @@ class locationcontroller extends GetxController implements GetxService {
       await database(Uid: FirebaseAuth.instance.currentUser!.uid)
           .saveaddress(addressdetails)
           .then((value) {
-        
         Get.snackbar("Done!", "Your order has been take care of it :)",
             colorText: Colors.black,
             backgroundColor: AppColor.maincolor,
@@ -171,17 +174,43 @@ class locationcontroller extends GetxController implements GetxService {
       Get.snackbar("Error", "Error saving your address delivery");
     }
   }
-     void setaddressupdate(){
+
+  void setaddressupdate() {
+    _position = _pickerPosition;
+    placemark = pickPlaceMark;
+
+    _updateaddressdata = false;
+
+    update();
+  }
+
+  Future<response> getzone(String lat, String lon, bool marked) async {
+    late response resp;
+    if (marked) {
+      _loading = true;
+    } else {
+      isloading = true;
+    }
+    update();
 
   
-       _position = _pickerPosition;
-       placemark = pickPlaceMark; 
-       
-       _updateaddressdata = false;
-      
-        update();
-        
+   Response resp1 = await Locationrepo.getzone(lat,lon);
+   if(resp1.statusCode==200){
+     inzone =true;
+      resp= response(true, resp1.body["zone_id"].toString());
+   }else{
+    inzone =false;
+    resp= response(false, resp1.statusText!);
+
+
+   }
+   if (marked) {
+      _loading = false;
+    } else {
+      isloading = false;
     }
+    update();
 
-
+    return resp;
+  }
 }

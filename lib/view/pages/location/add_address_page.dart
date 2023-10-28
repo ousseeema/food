@@ -29,9 +29,9 @@ class _addaddresspageState extends State<addaddresspage> {
   // camera postion taatik el blasa eli aatiha enta fi coordonnee
   //fi google maps mn foug b zoom eli theb aalih
   CameraPosition _cameraposition =
-      CameraPosition(target: LatLng(45.51563, -122.677433), zoom: 17);
+      CameraPosition(target: LatLng(33.8116, 10.9875), zoom: 17);
   // postion initiale eli besh tet7all 3liha google map
-  late LatLng _initposition = LatLng(45.51563, -122.677433);
+  late LatLng _initposition = LatLng(33.8116, 10.9875);
 
   @override
   void initState() {
