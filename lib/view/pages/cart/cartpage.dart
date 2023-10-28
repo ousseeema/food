@@ -3,6 +3,7 @@ import 'package:food/controller/cartController.dart';
 import 'package:food/controller/popular_product_controller.dart';
 import 'package:food/controller/recommanded_food_controller.dart';
 import 'package:food/routes/route_helper.dart';
+import 'package:food/services/shared.dart';
 import 'package:food/view/utils/app_constants.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
@@ -292,17 +293,26 @@ class cartpage extends StatelessWidget {
                   GestureDetector(
                     onTap: ()async {
                      
-                      SharedPreferences shared = await SharedPreferences.getInstance();
-                        
+                      
+                        //  addressexiste filed fi shared aamltha besh ki nji besh naaml check out 
+                        // yshounfi ken addressexiste fiha true yaani reho feme aadress mn ghyr ma yehzni lll page add address w ywali yaadi el order w ymshy ll home page
+                        // ken addressexiste fiha false reho yaani  mafemesh address  fi shared ywali yhezni ll page get address besh nakhtar address 
                     
-
-                       if (shared.getBool("islogin") == true) {
+                         // ken el user deja aaaml login w deja me5tar address
+                         // ki yaaml check out nheza ll home page w naadila el commande
+                       if (shared.getbool("islogin")== true && shared.getaddressexiste("addressexiste")==true) {
                           cartcontroller.addtohistory();
-                          Future.delayed(const Duration(milliseconds: 10,),(){
-                         // Get.snackbar("Check Out Done ", "Done!");
-                         });
-                          Get.toNamed(routeheleper.getaddress());
-                       }else{
+                         Get.toNamed(routeheleper.initaleroute);
+                       } 
+                       // is how aaml login  deja mesh  makhtar address mn gbal nheza ll page getadddress besh yakhtar address 
+                        
+                       else if(shared.getbool("islogin")== true && shared.getaddressexiste("addressexiste")==false){
+                           cartcontroller.addtohistory();
+                           Get.toNamed(routeheleper.getaddress());
+                       }
+                       
+                       // sinon howa mesh aaml login nheza ll page login besh yaaml login 
+                       else{
                         Get.toNamed(routeheleper.getsignin());
 
                        }

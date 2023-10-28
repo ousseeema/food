@@ -8,6 +8,7 @@ import 'package:food/Data/api/repository/locationrepo.dart';
 import 'package:food/models/adressmodel.dart';
 import 'package:food/models/response.dart';
 import 'package:food/services/database.dart';
+import 'package:food/services/shared.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -92,17 +93,10 @@ class locationcontroller extends GetxController implements GetxService {
           );
         }
 
-        response response1 = await getzone(position.target.latitude.toString(),
+       response response1 = await getzone(position.target.latitude.toString(),
             position.target.longitude.toString(), false);
-            //if buttondisabled equal false we are in the services area
-            buttondisabled = !response1.issucces;
-
-
-
-
-
-
-
+        //if buttondisabled equal false we are in the services area
+       buttondisabled = !response1.issucces;
 
         // in this if we will send the corrdonnation to the serveur and the serveur will  speak with the googel map and return
         // the name of the place that we choose in the maps (ex : tawa besh nabaatho object latlang ll serveur fi forme(44.66555,87.8148787)
@@ -149,8 +143,7 @@ class locationcontroller extends GetxController implements GetxService {
     return _address;
   }
 
-  late Map<String, dynamic> _getaddress;
-  Map get getaddress => _getaddress;
+ 
 
 //change the type index lors de la clique dans le UI sur les type des address
   void setAddresstypeindex(int index) {
@@ -159,22 +152,27 @@ class locationcontroller extends GetxController implements GetxService {
   }
 
   // saving the address in the data base
-  void saveaddress(Map addressdetails) async {
+  void saveaddress(Map<String, dynamic> addressdetails) async {
     try {
-      await database(Uid: FirebaseAuth.instance.currentUser!.uid)
-          .saveaddress(addressdetails)
-          .then((value) {
-        Get.snackbar("Done!", "Your order has been take care of it :)",
-            colorText: Colors.black,
-            backgroundColor: AppColor.maincolor,
-            barBlur: 10,
-            icon: const Icon(Icons.done));
-      });
+      // besh naamlo enreg ll address fi shared preferences besh alaiha test bbatali w naajmo njibouha 
+
+      shared.setlatlang("latitude", addressdetails["latitude"]);
+      shared.setlatlang("longitude", addressdetails["longitude"]);
+      shared.setaddressname("address", "${addressdetails["city_name"]} ${addressdetails["country"]} ${addressdetails["state"]} ${addressdetails["county"]} ");
+      // hne twali true  khater walet aandna aaaddreese fi shared
+      //  addressexiste filed fi shared aamltha besh ki nji besh naaml check out 
+      // yshounfi ken addressexiste fiha true yaani reho feme aadress mn ghyr ma yehzni lll page add address w ywali yaadi el order w ymshy ll home page
+      // ken addressexiste fiha false reho yaani  mafemesh address  fi shared ywali yhezni ll page get address besh nakhtar address 
+
+       shared.setaddressexiste("addressexiste", true);
+       // notice noaddress field yetbdl hne ll false khater walet aandna address 
+       // yetbdk zed fiha logout 
     } catch (e) {
       Get.snackbar("Error", "Error saving your address delivery");
     }
   }
-
+// el postion el jdida eli khtaretha mn pickerposition nhotha fi position besh
+// yawalo nafes el camera postion w kol fi zouz paget
   void setaddressupdate() {
     _position = _pickerPosition;
     placemark = pickPlaceMark;
@@ -193,18 +191,15 @@ class locationcontroller extends GetxController implements GetxService {
     }
     update();
 
-  
-   Response resp1 = await Locationrepo.getzone(lat,lon);
-   if(resp1.statusCode==200){
-     inzone =true;
-      resp= response(true, resp1.body["zone_id"].toString());
-   }else{
-    inzone =false;
-    resp= response(false, resp1.statusText!);
-
-
-   }
-   if (marked) {
+    Response resp1 = await Locationrepo.getzone(lat, lon);
+    if (resp1.statusCode == 200) {
+      inzone = true;
+      resp = response(true, resp1.body["zone_id"].toString());
+    } else {
+      inzone = false;
+      resp = response(false, resp1.statusText!);
+    }
+    if (marked) {
       _loading = false;
     } else {
       isloading = false;
