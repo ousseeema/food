@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_field, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, unused_field, avoid_unnecessary_containers, no_leading_underscores_for_local_identifiers, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:food/controller/locationcontroller.dart';
@@ -28,34 +28,34 @@ class _addaddresspageState extends State<addaddresspage> {
 
   // camera postion taatik el blasa eli aatiha enta fi coordonnee
   //fi google maps mn foug b zoom eli theb aalih
-  CameraPosition _cameraposition =
-      CameraPosition(target: LatLng(33.8116, 10.9875), zoom: 17);
+ late  CameraPosition _cameraposition ;
   // postion initiale eli besh tet7all 3liha google map
-  late LatLng _initposition = LatLng(33.8116, 10.9875);
+  late LatLng _initposition ;
 
   @override
-  void initState() {
+
+  
+  void initState()  {
     // TODO: implement initState
     super.initState();
     _addresscontroller.text="";
     // getting the value of islogin in the sharedpreferences "look at page shared "
-    islooged = shared.getbool("islogin");
+        islooged =    shared.getbool("islogin");
 
-    if (Get.find<locationcontroller>().addresslist.isNotEmpty) {
       // besh nthabet ken el lista eli fi page location controller fiha address gdyma deja ou nn
       // si fiha des adddress njibhom w nhothom fi camera postion elli besh tji fih el camera awel ma tet7al el google maps hiya w init postion
       // sinon ma naaml chy
       _cameraposition = CameraPosition(
           target: LatLng(
-              double.parse(
-                  Get.find<locationcontroller>().getaddress["latitude"]),
-              double.parse(
-                  Get.find<locationcontroller>().getaddress["longitude"])));
+              double.parse(  shared.getlatutide("latitude")
+                 ),
+              double.parse(  shared.getlong("longitude")
+                  )));
 
-      _initposition = LatLng(
-          double.parse(Get.find<locationcontroller>().getaddress["latitude"]),
-          double.parse(Get.find<locationcontroller>().getaddress["longitude"]));
-    }
+       _initposition = LatLng(
+          double.parse(  shared.getlatutide("latitude")),
+          double.parse( shared.getlong("longitude")));
+      
     
     // jebna les info mtaaa compte mn sharedpreferences w hatinehom fi des variable besh naaamlolhom affichage fi UI
     // kol ma tet7al page hedhy
@@ -336,7 +336,7 @@ class _addaddresspageState extends State<addaddresspage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        //this function will save the user address info in the data base
+                        //this function will save the user address info in the shared preferences
                         // ema gbal 7atithom fi map besh njm nhar akher nabaathom ll serveur 
 
                         Map<String, dynamic> detailsaddress = {
@@ -364,8 +364,9 @@ class _addaddresspageState extends State<addaddresspage> {
                               backgroundColor: Colors.red);
                         } else {
                           
-                          // naaml save ll user details fi base de donnees  na9esha el order maaha 
-                          // todo yazemni naamlelhom enreg fi shared preferences w list eli mawjouda fi location controller 
+                          // naaml save ll user details fi shared pref  
+                          // todo yazemni naamlelhom enreg fi shared preferences w list eli mawjouda fi location controller
+                           // bbaath el details fi map w baatali fi llocation cntrl enregisterhom fi shared preferences 
                           loccontroller.saveaddress(detailsaddress);
                           Get.toNamed(routeheleper.initaleroute);
 

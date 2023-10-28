@@ -5,6 +5,7 @@ import 'package:food/helper/localstorage.dart';
 import 'package:food/routes/route_helper.dart';
 import 'package:food/services/authent.dart';
 import 'package:food/services/shared.dart';
+import 'package:food/view/pages/home/homepage.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
 import 'package:food/view/widgets/appicon.dart';
@@ -187,41 +188,46 @@ class _accountpageState extends State<accountpage> {
                   height: Dimensions.heigth20,
                 ),
                 // this is for adress 
-                 Container(
-                  width: Dimensions.width30 * 12,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimensions.radius15),
-                      color: AppColor.maincolor,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          offset: const Offset(1, 10),
-                          blurRadius: 10,
-                          spreadRadius: 7,
+                 GestureDetector(
+                  onTap: (){
+                    Get.toNamed(routeheleper.addaddres);
+                  },
+                   child: Container(
+                    width: Dimensions.width30 * 12,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(Dimensions.radius15),
+                        color: AppColor.maincolor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            offset: const Offset(1, 10),
+                            blurRadius: 10,
+                            spreadRadius: 7,
+                          ),
+                        ]),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: Dimensions.width20,
                         ),
-                      ]),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: Dimensions.width20,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppColor.maincolor,
-                          borderRadius:
-                              BorderRadius.circular(Dimensions.radius20),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColor.maincolor,
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.radius20),
+                          ),
+                          width: Dimensions.width20 * 3,
+                          height: Dimensions.heigth20 * 3,
+                          child: const Icon(Icons.location_on),
                         ),
-                        width: Dimensions.width20 * 3,
-                        height: Dimensions.heigth20 * 3,
-                        child: const Icon(Icons.location_on),
-                      ),
-                      SizedBox(
-                        width: Dimensions.width20,
-                      ),
-                       Text((shared.getbool("islogin") ? "Djerba" : "Fill in your adress")),
-                    ],
-                  ),
-                ),
+                        SizedBox(
+                          width: Dimensions.width20/2,
+                        ),
+                         Text((shared.getbool("islogin") ? shared.getString("address") : "Fill in your adress")),
+                      ],
+                    ),
+                                 ),
+                 ),
                    SizedBox(
                   height:Dimensions.heigth20,
                 ),
@@ -272,12 +278,18 @@ class _accountpageState extends State<accountpage> {
                   onTap: () async{
                     if(shared.getbool("islogin")== true){
                       localstorage(email: "User@exmpl.com", islogin: false, name: "User", phone: "Phone Number").deletecorrdonnation();
-                         
+                          
+                          // ki naaml log out nrajja el addressexiste false besh ki narja el mera jeya tsyr nafes circle 
+                          
+                           shared.setaddressexiste("addressexiste", false);
                           Get.find<cartecontroller>().clear();
                           Get.find<cartecontroller>().clearcarhistory();                        
                           auth().signout();
+                         Get.to(()=> const homepage());
+                          
                           print("signout");
-                           Get.toNamed(routeheleper.initaleroute);
+                           
+                           Get.snackbar("Done! ", " You have logged out :) ");
                           
                       
 
