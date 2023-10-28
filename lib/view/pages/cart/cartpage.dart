@@ -12,7 +12,6 @@ import 'package:food/view/widgets/bigtext.dart';
 import 'package:food/view/widgets/nodata%C3%A7_page.dart';
 import 'package:food/view/widgets/smalltext.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class cartpage extends StatelessWidget {
   const cartpage({super.key});

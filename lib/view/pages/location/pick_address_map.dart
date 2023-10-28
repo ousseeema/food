@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:food/controller/locationcontroller.dart';
+import 'package:food/routes/route_helper.dart';
+import 'package:food/view/pages/location/add_address_page.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
 import 'package:food/view/widgets/save_address_btt.dart';
@@ -54,7 +56,7 @@ class _PickAdressMapState extends State<PickAdressMap> {
           ' ${locationcntrl.pickPlaceMark.country ?? ''} ';
       return Scaffold(
           body: SafeArea(
-              child: Center(
+              child: Center( 
         child: SizedBox(
           width: double.maxFinite,
           child: Stack(
@@ -67,9 +69,9 @@ class _PickAdressMapState extends State<PickAdressMap> {
                     // kol ma n7arek el maps hiya takhker position jdida w t7otha fi camera position besh 
                     //ena baatali feme fonction okhra temshy taaml update ll les corrdonnes w asemli jdod w kol mtaa el blasa jdida 
                 onCameraMove: (position) {
-                  setState(() {
+                 
                     _cameraPosition = position;
-                  });
+            
                 },
                 // hedhy hiya fonction eli besh tnedi func updateposition eli fi location controller 
                 // besh taamlna update ll donnes zay postion w place marker eli fihom donnes zay esm el blasa eli khtarnha 
@@ -85,7 +87,7 @@ class _PickAdressMapState extends State<PickAdressMap> {
               // center widget for the image marker.png to be  over the map
 
               Center(
-                  child: locationcntrl.loading
+                  child: !locationcntrl.loading
                       ? Image.asset(
                           "img/marker.png",
                           height: 50,
@@ -131,14 +133,14 @@ class _PickAdressMapState extends State<PickAdressMap> {
                   child: locationcntrl.isloading ? Center(
                     child: CircularProgressIndicator(),
                   ):SaveButt(
-                    bttText: locationcntrl.inzone? widget.fromadresss! ?"Pick Address": "Pick Location ": "Service is not alavailbe",
+                    bttText:widget.fromadresss! ?"Pick Address": "Pick Location ",
                     icon: Icons.done,
                     // if loding is true naaml verification aala el
                     //variable pickposition w pickplacemarker fihom donnee wele le
                     // ken fihom donnes naaml mise ajour ll camera postion b 
                     // position jdida eli deja khtartha ki amltt save address 
                     // w baaed yhezni ll page eli jyt mmnha 
-                    OnPressed: (locationcntrl.loading|| locationcntrl.buttondisabled)
+                    OnPressed: (locationcntrl.loading)
                         ? null
                         : () {
                             if (locationcntrl.pickPostion.latitude != 0 &&

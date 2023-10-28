@@ -2,14 +2,10 @@
 
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:food/Data/api/repository/locationrepo.dart';
 import 'package:food/models/adressmodel.dart';
 import 'package:food/models/response.dart';
-import 'package:food/services/database.dart';
 import 'package:food/services/shared.dart';
-import 'package:food/view/utils/appcolor.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -126,7 +122,7 @@ class locationcontroller extends GetxController implements GetxService {
     } else {
       _updateaddressdata = true;
 
-      //update();
+      update();
     }
   }
 
@@ -195,6 +191,7 @@ class locationcontroller extends GetxController implements GetxService {
     if (resp1.statusCode == 200) {
       inzone = true;
       resp = response(true, resp1.body["zone_id"].toString());
+      print(resp1);
     } else {
       inzone = false;
       resp = response(false, resp1.statusText!);
