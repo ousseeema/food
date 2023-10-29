@@ -21,6 +21,11 @@ final connect =GetConnect();
     return await apiClient.getdata("${AppConstants.ZONE_URI}?lat=${lat}&lng=${lon}");
    }
 
+
+  Future<Response> getsearchlocation(String text)async {
+    return await  apiClient.getdata("${AppConstants.location_search}?search_text=${text}");
+  }
+
  
 
 }
