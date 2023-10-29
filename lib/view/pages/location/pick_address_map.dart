@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:food/controller/locationcontroller.dart';
 import 'package:food/routes/route_helper.dart';
 import 'package:food/view/pages/location/add_address_page.dart';
+import 'package:food/view/pages/location/widgets/saerch_location_dialoge.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
 import 'package:food/view/widgets/save_address_btt.dart';
@@ -82,6 +83,9 @@ class _PickAdressMapState extends State<PickAdressMap> {
                   Get.find<locationcontroller>()
                       .updatePostion(_cameraPosition, false);
                 },
+                onMapCreated: (controller) {
+                  _mapcontroller = controller;
+                },
               ),
 
               // center widget for the image marker.png to be  over the map
@@ -102,27 +106,38 @@ class _PickAdressMapState extends State<PickAdressMap> {
                 top: Dimensions.heigth45,
                 left: Dimensions.width20 / 2,
                 right: Dimensions.width20 / 2,
-                child: Container(
-                    height: 50,
-                    padding: const EdgeInsets.only(top: 4),
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radius20 / 2),
-                        border: Border.all(color: Colors.black),
-                        color: AppColor.maincolor),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.location_on),
-                        Expanded(
-                            child: Text(
-                          "${_addressmarker.text}",
-                          style: const TextStyle(
-                              fontSize: 16, color: Colors.white),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ))
-                      ],
-                    )),
+                child: GestureDetector(
+                  onTap: (){
+
+                    // ki netki aala container eli fiha aadddress tjini pop up fiha win naaml recherche 
+                    Get.dialog(locationDialogue(mapController: _mapcontroller));
+
+                  },
+                  child: Container(
+                      height: 50,
+                      padding: const EdgeInsets.only(top: 4),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radius20 / 2),
+                          border: Border.all(color: Colors.black),
+                          color: AppColor.maincolor),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.location_on),
+                          Expanded(
+                              child: Text(
+                            "${_addressmarker.text}",
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.white),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                          SizedBox(width: Dimensions.width10,),
+                          // search icon 
+                         const  Icon(Icons.search, size: 25, color: AppColor.yellowcolor,)
+                        ],
+                      )),
+                ),
               ),
 
               // this postionned widget for making button to save the address that will retrevie

@@ -12,7 +12,7 @@ class AppConstants{
    static const String user_address ="user_address";
    static const String GEOCODE_URI ="/api/v1/config/geocode-api";
     static const String ZONE_URI ="/api/v1/config/get-zone-id";
-   
+   static const String location_search ="/api/v1/config/place-api-autocomplete";
    
 
 

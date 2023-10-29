@@ -46,6 +46,9 @@ dependencies:
   geolocator: ^8.2.0
   intl: ^0.18.1
   shared_preferences: ^2.2.0
+  flutter_typeahead: ^4.8.0
+  google_maps_flutter_web: ^0.5.4+2
+  google_places_flutter: ^2.0.6
 
 dev_dependencies:
   flutter_lints: ^2.0.0
