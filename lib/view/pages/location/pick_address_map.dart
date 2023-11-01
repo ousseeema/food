@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:food/controller/locationcontroller.dart';
-import 'package:food/routes/route_helper.dart';
-import 'package:food/view/pages/location/add_address_page.dart';
 import 'package:food/view/pages/location/widgets/saerch_location_dialoge.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
