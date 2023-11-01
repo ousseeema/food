@@ -41,12 +41,8 @@ class _PickAdressMapState extends State<PickAdressMap> {
           Get.find<locationcontroller>().postion.longitude),
       zoom: 17);
   late GoogleMapController _mapcontroller;
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-  }
+ 
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +80,9 @@ class _PickAdressMapState extends State<PickAdressMap> {
                       .updatePostion(_cameraPosition, false);
                 },
                 onMapCreated: (controller) {
+                  setState(() {
+                     _mapcontroller = controller;
+                  });
                   _mapcontroller = controller;
                 },
               ),
@@ -114,9 +113,9 @@ class _PickAdressMapState extends State<PickAdressMap> {
 
                   },
                   child: Container(
-                      height: 50,
-                      padding: const EdgeInsets.only(top: 4),
-                      decoration: BoxDecoration(
+                          height: 50,
+                          padding: const EdgeInsets.only(top: 4),
+                          decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(Dimensions.radius20 / 2),
                           border: Border.all(color: Colors.black),
@@ -134,7 +133,10 @@ class _PickAdressMapState extends State<PickAdressMap> {
                           )),
                           SizedBox(width: Dimensions.width10,),
                           // search icon 
-                         const  Icon(Icons.search, size: 25, color: AppColor.yellowcolor,)
+                         Container(
+                          margin: EdgeInsets.only(right: Dimensions.width10),
+                          child: const  Icon(Icons.search, size: 25, color: AppColor.yellowcolor,))
+                         
                         ],
                       )),
                 ),

@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_google_maps_webservices/places.dart' as def;
 import 'package:food/Data/api/repository/locationrepo.dart';
 import 'package:food/Data/apicheker.dart';
 import 'package:food/models/adressmodel.dart';
@@ -117,6 +118,10 @@ class locationcontroller extends GetxController implements GetxService {
                 subLocality: Address["county"] ?? "");
           }
         }
+        else{
+          _changeAddress =true;
+
+        }
       } catch (e) {
         print(e);
       }
@@ -212,7 +217,7 @@ class locationcontroller extends GetxController implements GetxService {
 // this variable list is to save the suggeustion that comes from the google it liste of prediction
   List<Prediction> predictionslist = [];
   Future<List<Prediction>> searchlocation(BuildContext context, String text) async {
-    predictionslist = [];
+   
     // if the text eli fi receherche mesh empty besh nemshy nedi function getsearchlocation
     // eli betbi3etha besh tabaath requeste ll back end b api w trajaali esm el blayes eli grab ll text eli aadita 
     // heka aalh esmha prediction 
@@ -223,17 +228,18 @@ class locationcontroller extends GetxController implements GetxService {
     // besh najmo naccedo liha fi UI 
 
     if (text.isNotEmpty) {
+       
       Response response = await Locationrepo.getsearchlocation(text);
       // el response besh tkoun 3ibara aala liste fiha beshrsha mapet  [{},{},{},{}]
       // besh naamlo foreach besh nhezouhom bel map bel map w baatali nbdlouhom ll object type prediction 
       // besh nesta3lo fromjson eli takhedh map t7awelha object 
       // besh baatali n7otouhom fi list de type prediction 
       // Todo : note bien el class prediction deja defini  yaani hadhra fi depandecie eli sabynha googlemaps..
-
+           predictionslist = [];
       if (response.statusCode == 200 && response.body['status'] == 'OK') {
-        response.body['prediction'].foreach((prediction) {
-          predictionslist.add(Prediction.fromJson(prediction));
-        });
+          predictionslist = [];
+            print( response.body);
+        response.body['predictions'].forEach((prediction)=> predictionslist.add(Prediction.fromJson(prediction)));
       }else {
         ApiCheker.checkApi(response);
 
@@ -243,4 +249,69 @@ class locationcontroller extends GetxController implements GetxService {
     }
     return predictionslist;
   }
+
+
+
+
+ getsearchdetails(String placeid , String address, GoogleMapController googleMapController)async{
+   _loading=true;
+    update();
+ 
+  // details hiya type placesdetailsresponse njm nalge fiha details mtaa el response eli besh tjina mn serbveur 
+  // besh baatali n7ot response fi wasetha kima nshoufo louta 
+    def.PlacesDetailsResponse details;
+    // besh naabath requete ll serveur besh ngoula aatini details mtaaa el blasa eli besh nmedha fi parametre 
+    Response response = await Locationrepo.getlocationdetails(placeid);
+   if(response.statusCode==200 && response.body["status"]=="OK"){
+   
+     // 7atit el reespnse lei jetna mn serveur fi waset el object details bel methode fromJson
+   details =  def.PlacesDetailsResponse.fromJson(response.body);
+   
+   // baaed ma jet response w hatitha fi waset details 
+   // bdlna pickerpostion b lan w lat jdida mtaaa el blasa eli aamlna aaliha recherche 
+   //besh el map taaaml el rouha lise a jour w thezna ll blasa jdida
+    _pickerPosition = Position(
+       longitude:  details.result.geometry!.location.lng,
+       latitude: details.result.geometry!.location.lat, 
+        timestamp:DateTime.now(),
+      accuracy: 1, 
+      altitude: 1, 
+      altitudeAccuracy: 1, 
+      heading: 1, 
+      headingAccuracy: 1, 
+      speed: 1,
+       speedAccuracy: 1);
+       // pickplacemark 7atina fiha esm el blasa jdid
+       pickPlaceMark = Placemark(
+        name:address,
+       );
+       print(pickPlaceMark.name);
+       _changeAddress = false;
+       
+       
+       
+
+
+     
+
+      // besh naaml update ll camera postion besh thezni ll blasa eloi lawejt aaliha fi recherche
+       if(!googleMapController.isNull ){
+        googleMapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(
+          details.result.geometry!.location.lat,  details.result.geometry!.location.lng
+        ),zoom: 17
+        )
+        )
+        );
+       }
+       _loading =false;
+       update();
+
+   }else{
+    print("error loading details from serveur ");
+   }
+      
+
+
+ }
+
 }

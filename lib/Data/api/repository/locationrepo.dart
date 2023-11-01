@@ -23,9 +23,17 @@ final connect =GetConnect();
 
 
   Future<Response> getsearchlocation(String text)async {
+    
     return await  apiClient.getdata("${AppConstants.location_search}?search_text=${text}");
   }
 
+
+
+  Future<Response> getlocationdetails(String placeid)async{
+
+    return await apiClient.getdata("${AppConstants.search_details}?placeid=${placeid}");
+
+  }
  
 
 }

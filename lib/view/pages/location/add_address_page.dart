@@ -351,7 +351,7 @@ class _addaddresspageState extends State<addaddresspage> {
                           "country": loccontroller.placemark.country,
                           "state": loccontroller.placemark.locality,
                           "county": loccontroller.placemark.subLocality
-                        };
+                       };
 
                         // ken el conatiner deja fiha el address par default nkharej pop up message
                         //sinon naaml enreg ll address w hajet lokhra i data base
@@ -382,7 +382,7 @@ class _addaddresspageState extends State<addaddresspage> {
                         padding: EdgeInsets.only(
                             top: Dimensions.heigth20,
                             bottom: Dimensions.heigth20,
-                            left: Dimensions.width20,
+                           left: Dimensions.width20,
                             right: Dimensions.width20),
                         child: bigtext(
                           text: "Save your address",
