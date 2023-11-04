@@ -41,19 +41,25 @@ class Stripe extends GetConnect {
         });
      print(response.body);
      
+
+     // baaed ma yetaada payment mrygl  besh nrajaa eli idi mtaa transaction 
     return  json.decode(response.body)["id"];
     
   }
 
+
+
+   // si function eli lfoug aamletli session nkml nkharej ui mtaa payment sinon taamli erreur 
+   // nb : yazem tkoun session s7i7a besh naajm naaml payment w yokhrejli UI
   static Future<dynamic> StripePaymentCheckout(
       productitems, subtotal, context, mounted,
       // optionaal parametre
       {onSuccess,
       onCancel,
       onError}) async {
-   final String sessionId =
+       final String sessionId =
         await CreateCheckoutSession(productitems, subtotal);
-
+          // besh tkharejli ui function hedhy deja predefini 
     final resultat = await redirectToCheckout(
         context: context,
         sessionId: sessionId,
@@ -62,7 +68,9 @@ class Stripe extends GetConnect {
         canceledUrl: "https://checkout.stripe.dev/cancel"
         
         );
-
+          // baaed maa yetaaml paiment w kol fonctionnette hedho besh yetaado si el payment saret besh nemshy el page okhra 
+          // si el paiment ghalta les details chnowa besh naml "
+          // si el clients aaml cancel ll payment chnowa naaml 
         if(mounted){
 
           final text= resultat.when(

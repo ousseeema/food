@@ -292,42 +292,31 @@ class cartpage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: ()async {
-                      List<Map> items=[
-                        {
-                          "product_price":4,
-                          "product_name":"appel",
-                          "qty":8
-                        },
-                         {
-                          "product_price":8,
-                          "product_name":"tofe7",
-                          "qty":8
-                        }
-                        ,
-                         {
-                          "product_price":2,
-                          "product_name":"borgden",
-                          "qty":8
-                        }
+                      // njibo el product eli besh naamlhom achat mn cart controller b methode getitems
+                      // methode getitems besh trajaali  list baaed ma trajaali naamlha parcours 
+                      // bel item bel item w nhez nzida fi list jiba liste<map> 
+                      //MAP HEKI FIHA esm el product w price w quantity 
+                      //yaani ken aandy 5 items fi carte besh neshrihom yaani besh twali liste jdida fiha 5 map
+                      // kol map fiha esm el product w soum w quantity mtaahom 
+                      //besh nbaathom ll stripe serveur bel methode stripecheckoutpayment
+                      var cart = Get.find<cartecontroller>().getitems;
+                     List <Map>  cartitems= [];
 
-                      ];
-                     
-                       await Stripe.StripePaymentCheckout(
-                        items, 
-                       500, 
-                       context,
-                        true,
-                       onSuccess: (){
-                        print("onsccuessed");
-
-                       },
-                       onCancel: (){
-                        print("cancelled");
-                       },
-                       onError: (e){
-                        print("error: "+ e.toString());
-                       }
+                      cart.forEach((element) {
+                        cartitems.add(
+                          {
+                            "product_price": element.price,
+                            "product_name": element.name,
+                            "qty": element.quantity,
+                          }
                         );
+                      });
+                      print(cartitems);
+                       
+
+                       
+                          
+                         
                         //  addressexiste filed fi shared aamltha besh ki nji besh naaml check out 
                         // yshounfi ken addressexiste fiha true yaani reho feme aadress mn ghyr ma yehzni lll page add address w ywali yaadi el order w ymshy ll home page
                         // ken addressexiste fiha false reho yaani  mafemesh address  fi shared ywali yhezni ll page get address besh nakhtar address 
@@ -335,8 +324,37 @@ class cartpage extends StatelessWidget {
                          // ken el user deja aaaml login w deja me5tar address
                          // ki yaaml check out nheza ll home page w naadila el commande
                        if (shared.getbool("islogin")== true && shared.getaddressexiste("addressexiste")==true) {
+                        
+                          // fonction hedhy besh tkharejli el ui mtaa el stripe w takhedh comment parametre 
+                          //el liste mtaa items w kol 
+                       await Stripe.StripePaymentCheckout(
+                         cartitems, 
+                           500, 
+                          context,
+                           true,
+                        onSuccess: (){
+                          // if this payment has been done
+                          // successfuly then will take the order un place it in the history carte 
                           cartcontroller.addtohistory();
+                          // and then go to the main page 
                          Get.toNamed(routeheleper.initaleroute);
+                        
+    
+                       },
+                       // if the payment was canceled then will prompt the message canceled 
+                       onCancel: (){
+                        Get.snackbar("Payment Canceled", "You canceled your payment");
+                       },
+                       // if there is an error in the payment corrdonnation or the details 
+                       // wee willl affiche the error in  the ui 
+                       onError: (e){
+                        Get.snackbar("Payment Error ", e.toString());
+                       }
+                        );
+
+
+
+                        
                        } 
                        // is how aaml login  deja mesh  makhtar address mn gbal nheza ll page getadddress besh yakhtar address 
                         
