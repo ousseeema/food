@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
     return  GetMaterialApp(
       debugShowCheckedModeBanner: false,
     // home:login(),
-     initialRoute: routeheleper.getspalshpage(),
+     initialRoute: routeheleper.getinitial(),
       getPages: routeheleper.Routes,
       theme: ThemeData(primaryColor: AppColor.maincolor),
     );

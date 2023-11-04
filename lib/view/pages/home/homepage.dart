@@ -1,6 +1,7 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:food/view/pages/cart/carthistory.dart';
+import 'package:food/view/pages/order/historyorder.dart';
 import 'package:food/view/utils/appcolor.dart';
 
 import '../account/account_page.dart';
@@ -17,9 +18,7 @@ class _homepageState extends State<homepage> {
   
   var Listpages = <Widget>[
     const mainfoodpage(),
-     const Center(
-       child: Text("archive"),
-     ),
+      const order_history(),
       const cartHistory(),
     
       
