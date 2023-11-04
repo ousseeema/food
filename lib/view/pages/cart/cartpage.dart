@@ -4,6 +4,7 @@ import 'package:food/controller/popular_product_controller.dart';
 import 'package:food/controller/recommanded_food_controller.dart';
 import 'package:food/routes/route_helper.dart';
 import 'package:food/services/shared.dart';
+import 'package:food/view/pages/payement/stripe.dart';
 import 'package:food/view/utils/app_constants.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:food/view/utils/dimensions.dart';
@@ -291,8 +292,42 @@ class cartpage extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: ()async {
+                      List<Map> items=[
+                        {
+                          "product_price":4,
+                          "product_name":"appel",
+                          "qty":8
+                        },
+                         {
+                          "product_price":8,
+                          "product_name":"tofe7",
+                          "qty":8
+                        }
+                        ,
+                         {
+                          "product_price":2,
+                          "product_name":"borgden",
+                          "qty":8
+                        }
+
+                      ];
                      
-                      
+                       await Stripe.StripePaymentCheckout(
+                        items, 
+                       500, 
+                       context,
+                        true,
+                       onSuccess: (){
+                        print("onsccuessed");
+
+                       },
+                       onCancel: (){
+                        print("cancelled");
+                       },
+                       onError: (e){
+                        print("error: "+ e.toString());
+                       }
+                        );
                         //  addressexiste filed fi shared aamltha besh ki nji besh naaml check out 
                         // yshounfi ken addressexiste fiha true yaani reho feme aadress mn ghyr ma yehzni lll page add address w ywali yaadi el order w ymshy ll home page
                         // ken addressexiste fiha false reho yaani  mafemesh address  fi shared ywali yhezni ll page get address besh nakhtar address 
