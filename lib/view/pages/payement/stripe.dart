@@ -6,17 +6,22 @@ import 'package:get/get_connect/connect.dart';
 import 'package:stripe_checkout/stripe_checkout.dart';
 
 class Stripe extends GetConnect {
+  //apikey one private and one publish
   static String privatekey =
       "sk_test_51O4PlUB1oYs4MxbD45QacOD91nuJEMJkVM7hpRh5JlY2HSI3AwYXf8e0D6WijnCk3FywsBaMMac9B15fTJukOAhG00Sd3xKZY7";
   static String publishbalkey =
       "pk_test_51O4PlUB1oYs4MxbD0WDJgRHTDZyuTqwMrhvH7HunbAn2KS2XIRZbn0B5bj1IU1bP8QhOcIZzsffevcjIpk7uEeRq00ylmk5EtH";
 
+
+// this function will send data to the endpoint and recive an response to confirme or to deinded
   static Future<dynamic> CreateCheckoutSession(
       List<dynamic> itemsList, AmountTotal) async {
+        // api endpoint
     final url = Uri.parse("https://api.stripe.com/v1/checkout/sessions");
     String lineitems = "";
     int index = 0;
-
+        // besh naaml parcours ll list mtaa items eli besh naamlelhom payment
+        // w nhothom fi variable fi from message besh nbaatha fi requette post 
     itemsList.forEach((val) {
       var product_price = (val["product_price"] * 100).round().toString();
       lineitems +=
