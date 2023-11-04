@@ -9,7 +9,6 @@ import 'package:food/routes/route_helper.dart';
 import 'package:food/services/shared.dart';
 import 'package:food/view/utils/appcolor.dart';
 import 'package:get/get.dart';
-
 import 'firebase_options.dart';
 import 'helper/dependencies.dart' as dep;
 Future<void>  main() async {
@@ -19,6 +18,7 @@ Future<void>  main() async {
     options: DefaultFirebaseOptions.currentPlatform,
     );
     shared.init();
+  
     
   await dep.init();
   runApp(const MyApp());
