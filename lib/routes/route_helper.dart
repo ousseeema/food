@@ -4,6 +4,7 @@ import 'package:food/view/pages/food/recommended_food_details.dart';
 import 'package:food/view/pages/home/homepage.dart';
 import 'package:food/view/pages/location/add_address_page.dart';
 import 'package:food/view/pages/location/pick_address_map.dart';
+import 'package:food/view/pages/payement/payment_success.dart';
 import 'package:food/view/pages/sign_inandout/login.dart';
 import 'package:food/view/pages/sign_inandout/signup.dart';
 import 'package:food/view/pages/splash/splashpage.dart';
@@ -19,7 +20,7 @@ class routeheleper {
   static const String signout="/sign-out";
   static const String  addaddres ="/add-address";
   static const String pickaddress="/pick-address";
-   
+   static const String paymentsuccess ="/payment_success";
 
 
 
@@ -35,6 +36,7 @@ class routeheleper {
   static String getsignout()=>"${signout}" ;
   static String getaddress()=> "${addaddres}";
   static String  getpickaddres()=> "${pickaddress}";
+ static String  getpayment()=> "${paymentsuccess}";
 
 
   static List<GetPage> Routes = [
@@ -81,5 +83,7 @@ class routeheleper {
        }),
  
  
+
+        GetPage(name: paymentsuccess, page: ()=> const payment_success(), transition: Transition.fadeIn)
   ];
 }

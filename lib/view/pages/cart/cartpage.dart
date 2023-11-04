@@ -336,8 +336,10 @@ class cartpage extends StatelessWidget {
                           // if this payment has been done
                           // successfuly then will take the order un place it in the history carte 
                           cartcontroller.addtohistory();
+                          //! after add to history list , we will add the order to the data base 
+                          
                           // and then go to the main page 
-                         Get.toNamed(routeheleper.initaleroute);
+                         Get.toNamed(routeheleper.getpayment());
                         
     
                        },
@@ -359,7 +361,7 @@ class cartpage extends StatelessWidget {
                        // is how aaml login  deja mesh  makhtar address mn gbal nheza ll page getadddress besh yakhtar address 
                         
                        else if(shared.getbool("islogin")== true && shared.getaddressexiste("addressexiste")==false){
-                           cartcontroller.addtohistory();
+                          
                            Get.toNamed(routeheleper.getaddress());
                        }
                        

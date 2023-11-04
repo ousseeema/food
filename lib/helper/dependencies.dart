@@ -17,7 +17,7 @@ Future<void> init() async {
   final sharedpreferences = await SharedPreferences.getInstance();
   Get.lazyPut(() => sharedpreferences);
 
-  //sharedpreferences.clear();
+ // sharedpreferences.clear();
   //api clinet
   Get.lazyPut(() => apiclient(appbaseurl: AppConstants.BASE_URI));
 
