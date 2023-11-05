@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart' ;
 import 'package:food/helper/localstorage.dart';
+import 'package:food/models/cartmodel.dart';
 import 'package:food/services/shared.dart';
 
 
@@ -8,6 +9,7 @@ class database{
   database({this.Uid});
 
 // ignore: empty_constructor_bodies
+final CollectionReference orderscoll = FirebaseFirestore.instance.collection("orders");
 final CollectionReference usercollection = FirebaseFirestore.instance.collection("user");
 final CollectionReference addresscollection = FirebaseFirestore.instance.collection("delivery ");
   Future registeruser(String email , String fullname , String phone )async {
@@ -40,6 +42,8 @@ final CollectionReference addresscollection = FirebaseFirestore.instance.collect
       }
        
       
+
+
        
     
           
@@ -67,7 +71,19 @@ final CollectionReference addresscollection = FirebaseFirestore.instance.collect
      "heure_de_commande":"${DateTime.now().hour } H~${DateTime.now().minute } M~${DateTime.now().second } S" 
 
 });
+
+
      
+
+ }
+
+ Future saveorder(List<Map<String,dynamic>> order)async{
+
+  await orderscoll.doc(Uid).collection("orders").add({
+    
+    "order":order,
+
+  });
 
  }
 }

@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:food/routes/route_helper.dart';
 import 'package:food/view/utils/dimensions.dart';
 import 'package:get/get.dart';

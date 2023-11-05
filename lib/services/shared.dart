@@ -17,7 +17,7 @@ class shared{
 
 
 
-    return pref!.getString(key)??"XXXX";
+    return pref!.getString(key)??"Choose Address";
 
  }
  static getbool(key){
